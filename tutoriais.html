@@ -23,6 +23,7 @@ h2{font-size:.85rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--su
 .t{font-weight:700;font-size:1.02rem}
 .d{font-size:.85rem;color:var(--sub);margin-top:2px}
 .player{position:relative;aspect-ratio:16/9;background:#000 center/cover no-repeat;cursor:pointer;display:block;width:100%;border:0;padding:0}
+.player.vertical{aspect-ratio:9/16;max-height:80vh;max-width:calc(80vh*9/16);margin:0 auto}
 .player iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 .player .play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:68px;height:68px;border-radius:50%;background:var(--laranja);display:grid;place-items:center;box-shadow:0 4px 14px rgba(0,0,0,.4)}
 .player .play svg{width:26px;height:26px;fill:#fff;margin-left:4px}
@@ -59,7 +60,7 @@ main.innerHTML = grupos.map(g => {
     const cab = `<div class="cab"><div class="t">${esc(t.titulo)}</div>${t.descricao ? `<div class="d">${esc(t.descricao)}</div>` : ""}</div>`;
     if (!id) return `<div class="item">${cab}<a class="link" href="${esc(t.video)}" target="_blank" rel="noopener">Abrir</a></div>`;
     return `<div class="item">${cab}
-      <button class="player" data-id="${id}" aria-label="Assistir ${esc(t.titulo)}"
+      <button class="player${t.vertical ? " vertical" : ""}" data-id="${id}" aria-label="Assistir ${esc(t.titulo)}"
         style="background-image:url('${esc(t.capa || `https://i.ytimg.com/vi/${id}/hqdefault.jpg`)}')"><span class="play">${play}</span></button>
       <a class="yt" href="https://www.youtube.com/watch?v=${id}" target="_blank" rel="noopener">Abrir no YouTube ↗</a></div>`;
   }).join("");
