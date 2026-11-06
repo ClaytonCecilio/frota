@@ -60,7 +60,7 @@ main.innerHTML = grupos.map(g => {
     if (!id) return `<div class="item">${cab}<a class="link" href="${esc(t.video)}" target="_blank" rel="noopener">Abrir</a></div>`;
     return `<div class="item">${cab}
       <button class="player" data-id="${id}" aria-label="Assistir ${esc(t.titulo)}"
-        style="background-image:url('https://i.ytimg.com/vi/${id}/hqdefault.jpg')"><span class="play">${play}</span></button>
+        style="background-image:url('${esc(t.capa || `https://i.ytimg.com/vi/${id}/hqdefault.jpg`)}')"><span class="play">${play}</span></button>
       <a class="yt" href="https://www.youtube.com/watch?v=${id}" target="_blank" rel="noopener">Abrir no YouTube ↗</a></div>`;
   }).join("");
 }).join("") || '<p class="vazio">Nenhum tutorial ainda.</p>';
