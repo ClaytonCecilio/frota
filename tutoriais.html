@@ -47,8 +47,14 @@ footer{text-align:center;color:var(--sub);font-size:.85rem;padding:0 16px 28px}
 </header>
 <main id="lista"></main>
 <footer>Dúvidas? Procure o Gestor da frota.</footer>
-<script src="tutoriais.js?v=20261109"></script>
 <script>
+(function(){
+  var sc=document.createElement("script");
+  sc.src="tutoriais.js?t="+Date.now();
+  sc.onload=sc.onerror=function(){ render(); };
+  document.head.appendChild(sc);
+})();
+function render(){
 const grupos = ["Condutor", "Gestor da frota"];
 const play = '<svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></svg>';
 const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
@@ -77,6 +83,7 @@ main.addEventListener("click", e => {
   p.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${p.dataset.id}?autoplay=1&rel=0&playsinline=1"
     allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen title="Vídeo"></iframe>`;
 });
+}
 </script>
 </div>
 </body>
