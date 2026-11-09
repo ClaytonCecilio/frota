@@ -36,6 +36,8 @@ footer{text-align:center;color:var(--sub);font-size:.85rem;padding:0 16px 28px}
   body{background:radial-gradient(circle at 15% 10%,#1E3A6A 0,transparent 45%),radial-gradient(circle at 85% 90%,rgba(242,106,15,.25) 0,transparent 40%),#0B1830;background-attachment:fixed;min-height:100vh;padding:32px 0}
   .app{max-width:520px;margin:0 auto;background:var(--fundo);border-radius:22px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.45);min-height:calc(100vh - 64px)}
 }
+.item.destaque{outline:3px solid var(--laranja);outline-offset:2px}
+.item{scroll-margin-top:12px}
 </style>
 </head>
 <body>
@@ -70,20 +72,27 @@ main.innerHTML = grupos.map(g => {
   return `<h2>${esc(g)}</h2>` + itens.map(t => {
     const id = idYoutube(t.video);
     const cab = `<div class="cab"><div class="t">${esc(t.titulo)}</div>${t.descricao ? `<div class="d">${esc(t.descricao)}</div>` : ""}</div>`;
-    if (!id) return `<div class="item">${cab}<a class="link" href="${esc(t.video)}" target="_blank" rel="noopener">Abrir</a></div>`;
-    return `<div class="item">${cab}
+    if (!id) return `<div class="item" id="${esc(t.codigo||"")}">${cab}<a class="link" href="${esc(t.video)}" target="_blank" rel="noopener">Abrir</a></div>`;
+    return `<div class="item" id="${esc(t.codigo||"")}">${cab}
       <button class="player${t.vertical ? " vertical" : ""}" data-id="${id}" aria-label="Assistir ${esc(t.titulo)}"
         style="background-image:url('${esc(t.capa || `https://i.ytimg.com/vi/${id}/hqdefault.jpg`)}')"><span class="play">${play}</span></button>
       <a class="yt" href="https://www.youtube.com/watch?v=${id}" target="_blank" rel="noopener">Abrir no YouTube ↗</a></div>`;
   }).join("");
 }).join("") || '<p class="vazio">Nenhum tutorial ainda.</p>';
 
-main.addEventListener("click", e => {
-  const p = e.target.closest("button.player");
+function abrir(p){
   if (!p || p.querySelector("iframe")) return;
   p.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${p.dataset.id}?autoplay=1&rel=0&playsinline=1"
     allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen title="Vídeo"></iframe>`;
-});
+}
+main.addEventListener("click", e => abrir(e.target.closest("button.player")));
+// Link direto (ex.: tutoriais.html#C01, vindo do FAQ): rola até o vídeo, destaca e abre o player.
+const alvo = location.hash && document.getElementById(decodeURIComponent(location.hash.slice(1)));
+if (alvo) {
+  alvo.classList.add("destaque");
+  alvo.scrollIntoView({behavior:"smooth", block:"start"});
+  abrir(alvo.querySelector("button.player"));
+}
 }
 </script>
 </div>
